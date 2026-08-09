@@ -90,55 +90,60 @@ const OrderTracking = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-8 transition-colors">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
+        {/* Header & Status Bar */}
+        <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-100 dark:border-slate-800">
             <div>
-              <span className="text-xs font-semibold text-slate-400">Order Number</span>
-              <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+              <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Order ID</span>
+              <h1 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 {order.orderNumber}
               </h1>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant={order.paymentInfo?.status === 'PAID' ? 'success' : 'warning'}>
+              <span className={`px-2.5 py-0.5 rounded text-xs font-semibold ${
+                order.paymentInfo?.status === 'PAID' ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-white'
+              }`}>
                 Payment: {order.paymentInfo?.status}
-              </Badge>
-              <Badge variant="teal">{order.orderStatus}</Badge>
+              </span>
+              <span className="px-2.5 py-0.5 rounded text-xs font-semibold bg-teal-600 text-white">
+                {order.orderStatus}
+              </span>
             </div>
           </div>
 
-          {/* Visual Progress Timeline */}
-          <div className="py-8">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">
-              Real-time Order Timeline Progress
+          {/* Clean Order Timeline */}
+          <div className="pt-6 pb-2">
+            <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-5">
+              Order Timeline
             </h3>
 
-            <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
               {STATUS_STEPS.map((step, idx) => {
                 const isCompleted = idx <= currentStepIndex;
                 const isCurrent = idx === currentStepIndex;
 
                 return (
-                  <div key={step.key} className="flex md:flex-col items-center gap-3 relative z-10 flex-1">
-                    <div
-                      className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-xs transition-all shadow-md ${
+                  <div key={step.key} className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center ${
                         isCurrent
-                          ? 'bg-teal-500 text-white ring-4 ring-teal-500/20 scale-110'
+                          ? 'bg-teal-600 text-white ring-2 ring-teal-600/30'
                           : isCompleted
-                          ? 'bg-emerald-500 text-white'
-                          : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
-                      }`}
-                    >
-                      {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : idx + 1}
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-slate-200 dark:bg-slate-700 text-slate-500'
+                      }`}>
+                        {isCompleted ? '✓' : idx + 1}
+                      </span>
+                      {isCurrent && <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />}
                     </div>
 
-                    <div className="text-left md:text-center">
-                      <span className={`block text-xs font-bold ${isCompleted ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>
+                    <div>
+                      <span className={`block text-xs font-semibold ${isCompleted ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>
                         {step.label}
                       </span>
-                      <span className="text-[10px] text-slate-400 max-w-[120px] block leading-tight">
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-0.5">
                         {step.desc}
                       </span>
                     </div>
@@ -149,25 +154,25 @@ const OrderTracking = () => {
           </div>
         </div>
 
-        {/* Order Details & Address */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
-            <h3 className="font-bold text-base text-slate-900 dark:text-white pb-2 border-b flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-teal-500" /> Delivery Address
+        {/* Address & Payment Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center gap-1.5">
+              <MapPin className="w-4 h-4 text-teal-600" /> Delivery Address
             </h3>
-            <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
-              <p className="font-bold text-slate-900 dark:text-white">{order.shippingAddress?.name}</p>
+            <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1 pt-1">
+              <p className="font-semibold text-slate-900 dark:text-white">{order.shippingAddress?.name}</p>
               <p>{order.shippingAddress?.street}</p>
               <p>{order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pincode}</p>
-              <p className="text-slate-400 pt-1">Phone: {order.shippingAddress?.phone}</p>
+              <p className="text-slate-400 pt-0.5">Phone: {order.shippingAddress?.phone}</p>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
-            <h3 className="font-bold text-base text-slate-900 dark:text-white pb-2 border-b flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-teal-500" /> Payment & Billing Summary
+          <div className="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-teal-600" /> Billing Breakdown
             </h3>
-            <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1.5">
+            <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1 pt-1">
               <div className="flex justify-between">
                 <span>Subtotal:</span>
                 <span className="font-semibold">₹{order.pricing?.subtotal?.toLocaleString()}</span>
@@ -180,7 +185,7 @@ const OrderTracking = () => {
                 <span>Flatbed Transport:</span>
                 <span className="font-semibold">₹{order.pricing?.deliveryFee?.toLocaleString()}</span>
               </div>
-              <div className="flex justify-between pt-2 border-t font-bold text-slate-900 dark:text-white text-sm">
+              <div className="flex justify-between pt-2 border-t border-slate-100 dark:border-slate-800 font-bold text-slate-900 dark:text-white text-sm">
                 <span>Total Paid:</span>
                 <span className="text-teal-600 dark:text-teal-400">₹{order.pricing?.totalPrice?.toLocaleString()}</span>
               </div>
@@ -188,34 +193,34 @@ const OrderTracking = () => {
           </div>
         </div>
 
-        {/* Ordered Vehicle Item Card */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-          <h3 className="font-bold text-base text-slate-900 dark:text-white">Purchased Vehicles</h3>
+        {/* Purchased Items List */}
+        <div className="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <h3 className="font-bold text-sm text-slate-900 dark:text-white">Purchased Vehicles</h3>
           {order.items?.map((item, idx) => (
-            <div key={idx} className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40">
-              <div className="flex items-center gap-4">
+            <div key={idx} className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-3">
                 <img
                   src={item.image || item.vehicle?.images?.[0] || 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=300&q=80'}
                   alt={item.title}
-                  className="w-20 h-16 object-cover rounded-xl"
+                  className="w-16 h-12 object-cover rounded-md"
                 />
                 <div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">{item.title}</h4>
-                  <span className="text-xs text-slate-400">{item.brand} {item.model}</span>
+                  <h4 className="font-semibold text-xs text-slate-900 dark:text-white">{item.title}</h4>
+                  <span className="text-[11px] text-slate-400">{item.brand} {item.model}</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                <span className="font-bold text-teal-600 dark:text-teal-400 text-sm">₹{item.price?.toLocaleString()}</span>
+              <div className="flex items-center gap-3">
+                <span className="font-bold text-slate-900 dark:text-white text-xs">₹{item.price?.toLocaleString()}</span>
                 {order.orderStatus === 'DELIVERED' && (
                   <button
                     onClick={() => {
                       setSelectedVehicle(item.vehicle || item);
                       setShowReviewModal(true);
                     }}
-                    className="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold rounded-xl shadow flex items-center gap-1"
+                    className="px-3 py-1 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded-md flex items-center gap-1 transition-colors"
                   >
-                    <Star className="w-3.5 h-3.5 fill-current" />
+                    <Star className="w-3 h-3 fill-current" />
                     Review EV
                   </button>
                 )}
@@ -226,12 +231,12 @@ const OrderTracking = () => {
 
         {/* Review Modal */}
         {showReviewModal && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-2xl space-y-4">
-              <h3 className="font-bold text-lg text-slate-900 dark:text-white">Submit Verified Buyer Review</h3>
-              <p className="text-xs text-slate-500">Rate your experience driving your new electric vehicle</p>
+          <div className="fixed inset-0 z-50 bg-slate-950/70 flex items-center justify-center p-4">
+            <div className="bg-white dark:bg-slate-900 rounded-xl p-5 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-xl space-y-3">
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Submit Buyer Review</h3>
+              <p className="text-xs text-slate-500">Rate your experience driving your electric vehicle</p>
 
-              <div className="flex gap-2 justify-center py-2">
+              <div className="flex gap-2 justify-center py-1">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -239,7 +244,7 @@ const OrderTracking = () => {
                     onClick={() => setRating(star)}
                     className="p-1"
                   >
-                    <Star className={`w-8 h-8 ${star <= rating ? 'text-amber-400 fill-amber-400' : 'text-slate-300 dark:text-slate-700'}`} />
+                    <Star className={`w-7 h-7 ${star <= rating ? 'text-amber-400 fill-amber-400' : 'text-slate-300 dark:text-slate-700'}`} />
                   </button>
                 ))}
               </div>
@@ -248,15 +253,15 @@ const OrderTracking = () => {
                 rows={4}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Share performance, real range, charging speed, and delivery experience..."
-                className="w-full p-3 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
+                placeholder="Share performance, range, charging speed, and delivery experience..."
+                className="w-full p-2.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
 
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => setShowReviewModal(false)}
-                  className="flex-1 py-2.5 rounded-xl border text-xs font-semibold"
+                  className="flex-1 py-2 rounded-md border text-xs font-medium text-slate-700 dark:text-slate-300"
                 >
                   Cancel
                 </button>
@@ -264,7 +269,7 @@ const OrderTracking = () => {
                   type="button"
                   onClick={handleReviewSubmit}
                   disabled={submittingReview}
-                  className="flex-1 py-2.5 rounded-xl bg-teal-600 text-white text-xs font-semibold shadow"
+                  className="flex-1 py-2 rounded-md bg-teal-600 text-white text-xs font-medium"
                 >
                   Submit Review
                 </button>

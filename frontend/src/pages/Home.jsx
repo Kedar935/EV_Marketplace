@@ -53,90 +53,79 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors">
-      {/* Premium Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-24 lg:pt-20 lg:pb-32 bg-slate-950 text-white">
-        {/* Glowing Background Accents */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      {/* Hero Section */}
+      <section className="bg-slate-900 text-white py-12 lg:py-16 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Hero Copy */}
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs font-semibold uppercase tracking-wider">
-                <Sparkles className="w-4 h-4" />
-                Next-Gen EV Discovery & Commerce
-              </div>
+            <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
+              <span className="inline-block px-3 py-1 rounded bg-slate-800 border border-slate-700 text-teal-400 text-xs font-medium">
+                Electric Vehicle Marketplace
+              </span>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white">
-                Find Your Next <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400">
-                  Electric Drive
-                </span>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
+                Find Your Next Electric Vehicle
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-                Discover, compare, and buy certified electric vehicles from verified sellers with real-time battery analytics, transparent pricing, and instant home delivery.
+              <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                Explore, compare and buy electric vehicles from marketplace sellers. Certified listings with range and battery verification.
               </p>
 
-              {/* Hero Quick Search Input */}
-              <form onSubmit={handleSearchSubmit} className="max-w-xl mx-auto lg:mx-0 pt-2">
-                <div className="flex flex-col sm:flex-row items-center gap-2 p-2 bg-slate-900/90 border border-slate-800 rounded-2xl shadow-2xl backdrop-blur-xl">
-                  <div className="flex items-center gap-3 px-3 w-full">
-                    <Search className="w-5 h-5 text-slate-400 shrink-0" />
+              {/* Hero Search Input */}
+              <form onSubmit={handleSearchSubmit} className="max-w-lg mx-auto lg:mx-0 pt-2">
+                <div className="flex items-center gap-2 p-1.5 bg-slate-800 border border-slate-700 rounded-lg">
+                  <div className="flex items-center gap-2 px-2.5 w-full">
+                    <Search className="w-4 h-4 text-slate-400 shrink-0" />
                     <input
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search Tesla, Nexon EV, range 500+ km..."
-                      className="w-full bg-transparent text-white placeholder-slate-500 text-sm focus:outline-none py-2"
+                      placeholder="Search by brand, model or location..."
+                      className="w-full bg-transparent text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none py-1.5"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-semibold text-sm rounded-xl transition-all shadow-lg shadow-teal-500/25 shrink-0 flex items-center justify-center gap-2"
+                    className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold rounded-md transition-colors shrink-0"
                   >
-                    <span>Search</span>
-                    <ArrowRight className="w-4 h-4" />
+                    Search
                   </button>
                 </div>
               </form>
 
-              {/* Hero Action Buttons */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
                 <Link
                   to="/vehicles"
-                  className="px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-sm transition-all shadow-lg shadow-teal-500/25"
+                  className="px-4 py-2.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs sm:text-sm transition-colors"
                 >
-                  Explore All EVs
+                  Explore EVs
                 </Link>
                 <Link
                   to="/register?role=VENDOR"
-                  className="px-6 py-3 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-200 font-semibold text-sm transition-all"
+                  className="px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium text-xs sm:text-sm transition-colors"
                 >
                   Sell Your EV
                 </Link>
               </div>
             </div>
 
-            {/* Hero Featured Vehicle Highlight Image */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-gradient-to-b from-slate-900 to-slate-950 p-2 group">
+            {/* Hero Image Card */}
+            <div className="lg:col-span-5">
+              <div className="rounded-xl overflow-hidden border border-slate-800 bg-slate-800/50">
                 <img
                   src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=1000&q=80"
                   alt="Tesla Model 3"
-                  className="w-full h-80 sm:h-96 object-cover rounded-2xl group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-64 sm:h-80 object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent rounded-2xl" />
-
-                <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-slate-900/80 backdrop-blur-md border border-slate-800">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-bold text-teal-400">TESLA MODEL 3</span>
-                    <span className="text-xs text-slate-400">Long Range Dual Motor</span>
+                <div className="p-4 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-xs">
+                  <div>
+                    <span className="font-semibold text-white block">Tesla Model 3</span>
+                    <span className="text-slate-400 text-[11px]">Long Range Dual Motor</span>
                   </div>
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-lg font-extrabold text-white">₹45.00 Lakh</span>
-                    <span className="text-xs text-emerald-400 font-medium">629 km Range</span>
+                  <div className="text-right">
+                    <span className="font-bold text-teal-400 text-sm block">₹45.00 Lakh</span>
+                    <span className="text-slate-400 text-[11px]">629 km Range</span>
                   </div>
                 </div>
               </div>
@@ -145,72 +134,71 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categories Grid */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8">
+      {/* EV Body Type Categories */}
+      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-              Browse by EV Segment
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+              Browse by Body Type
             </h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Select body style tailored for your driving lifestyle
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Find an EV segment suited to your needs
             </p>
           </div>
           <Link
             to="/vehicles"
-            className="inline-flex items-center gap-1 text-sm font-bold text-teal-600 dark:text-teal-400 hover:gap-2 transition-all mt-3 sm:mt-0"
+            className="text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-0.5"
           >
-            <span>View All Categories</span>
-            <ChevronRight className="w-4 h-4" />
+            <span>View All</span>
+            <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { title: 'SUVs & Crossovers', bodyType: 'SUV', count: '12+ Models', img: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=500&q=80' },
             { title: 'Sedans & Fastbacks', bodyType: 'Sedan', count: '8+ Models', img: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=500&q=80' },
-            { title: 'Luxury & Sports', bodyType: 'Luxury', count: '6+ Models', img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=500&q=80' },
+            { title: 'Luxury & Performance', bodyType: 'Luxury', count: '6+ Models', img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=500&q=80' },
             { title: 'City Hatchbacks', bodyType: 'Hatchback', count: '5+ Models', img: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=500&q=80' },
           ].map((cat, idx) => (
             <Link
               key={idx}
               to={`/vehicles?bodyType=${cat.bodyType}`}
-              className="group relative h-48 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all"
+              className="group relative h-40 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:border-slate-300 transition-all"
             >
               <img
                 src={cat.img}
                 alt={cat.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 text-white">
-                <h3 className="font-bold text-base group-hover:text-teal-400 transition-colors">{cat.title}</h3>
-                <span className="text-xs text-slate-300">{cat.count}</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent" />
+              <div className="absolute bottom-3 left-3 right-3 text-white">
+                <h3 className="font-semibold text-sm group-hover:text-teal-300 transition-colors">{cat.title}</h3>
+                <span className="text-[11px] text-slate-300">{cat.count}</span>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Featured EVs Section */}
-      <section className="py-16 bg-slate-100/50 dark:bg-slate-900/30 border-y border-slate-200/80 dark:border-slate-800/80">
+      {/* Featured Vehicles Section */}
+      <section className="py-12 bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 text-xs font-semibold mb-2">
-                <Award className="w-3.5 h-3.5" />
-                Live MongoDB Inventory
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
                 Featured Electric Vehicles
               </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Verified inventory from marketplace sellers
+              </p>
             </div>
             <Link
               to="/vehicles"
-              className="inline-flex items-center gap-1 text-sm font-bold text-teal-600 dark:text-teal-400 hover:gap-2 transition-all mt-3 sm:mt-0"
+              className="text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-0.5"
             >
-              <span>Explore Marketplace</span>
-              <ChevronRight className="w-4 h-4" />
+              <span>View All EVs</span>
+              <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
@@ -232,30 +220,26 @@ const Home = () => {
         </div>
       </section>
 
-      {/* AI Recommendation Teaser Banner */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-teal-950 via-slate-900 to-slate-950 border border-teal-500/30 p-8 sm:p-12 text-white shadow-2xl">
-          <div className="max-w-2xl relative z-10 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-400/20 text-teal-300 text-xs font-semibold">
-              <Sparkles className="w-4 h-4" />
-              Retrieval-Augmented AI Engine
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-              Unsure which EV fits your daily commute?
+      {/* AI Recommendation Banner */}
+      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="rounded-xl bg-slate-900 border border-slate-800 p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center md:text-left">
+            <span className="inline-block px-2.5 py-0.5 rounded bg-teal-950 border border-teal-800 text-teal-400 text-xs font-medium">
+              Smart Vehicle Matcher
+            </span>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
+              Need help choosing the right EV?
             </h2>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Tell our AI your budget, daily driving distance, and seating needs. It instantly filters live database inventory and generates personalized recommendations.
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
+              Answer a few questions about your daily driving distance, budget, and seating requirements to find matched vehicles from our inventory.
             </p>
-            <div className="pt-2">
-              <Link
-                to="/recommendations"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold text-sm shadow-xl shadow-teal-500/25 transition-all"
-              >
-                <span>Launch AI Vehicle Finder</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
           </div>
+          <Link
+            to="/recommendations"
+            className="px-5 py-2.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-medium transition-colors shrink-0"
+          >
+            Launch AI Vehicle Finder
+          </Link>
         </div>
       </section>
     </div>

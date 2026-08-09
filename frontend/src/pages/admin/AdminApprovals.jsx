@@ -58,13 +58,13 @@ const AdminApprovals = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">
-          Listing Approvals Queue
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-1">
+          Approvals Queue
         </h1>
-        <p className="text-xs text-slate-500 mb-8">
-          Review vendor EV listing submissions for battery specifications & pricing accuracy
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
+          Review vendor EV listing submissions before publishing to marketplace
         </p>
 
         {pendingVehicles.length === 0 ? (
@@ -74,37 +74,37 @@ const AdminApprovals = () => {
             description="All vendor vehicle listing submissions have been reviewed."
           />
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {pendingVehicles.map((v) => (
               <div
                 key={v._id}
-                className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+                className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
               >
-                <div className="flex items-center gap-5">
+                <div className="flex items-center gap-4">
                   <img
                     src={v.images?.[0] || 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=300&q=80'}
                     alt={v.title}
-                    className="w-28 h-20 object-cover rounded-2xl shrink-0"
+                    className="w-24 h-16 object-cover rounded-lg shrink-0"
                   />
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 dark:text-white">{v.title}</h3>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Vendor: <strong className="text-slate-700 dark:text-slate-300">{v.vendor?.businessName}</strong> • {v.brand} {v.model} ({v.year})
+                    <h3 className="font-semibold text-base text-slate-900 dark:text-white">{v.title}</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                      Vendor: <strong className="text-slate-700 dark:text-slate-300">{v.vendor?.businessName}</strong> · {v.brand} {v.model} ({v.year})
                     </p>
-                    <div className="flex items-center gap-3 mt-2 text-xs font-semibold text-teal-600 dark:text-teal-400">
-                      <span>₹{(v.price / 100000).toFixed(2)} Lakh</span>
-                      <span>• {v.rangeKm} km Range</span>
-                      <span>• {v.batteryCapacityKwh} kWh Battery</span>
+                    <div className="flex items-center gap-2 mt-1.5 text-xs text-slate-700 dark:text-slate-300">
+                      <span className="font-bold text-slate-900 dark:text-white">₹{(v.price / 100000).toFixed(2)} Lakh</span>
+                      <span>· {v.rangeKm} km Range</span>
+                      <span>· {v.batteryCapacityKwh} kWh</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+                <div className="flex items-center gap-2 w-full md:w-auto justify-end">
                   <button
                     onClick={() => handleApprove(v._id)}
-                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow flex items-center gap-1.5"
+                    className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs flex items-center gap-1 transition-colors"
                   >
-                    <CheckCircle2 className="w-4 h-4" />
+                    <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Approve</span>
                   </button>
                   <button
@@ -112,9 +112,9 @@ const AdminApprovals = () => {
                       setSelectedVehicle(v);
                       setShowRejectModal(true);
                     }}
-                    className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow flex items-center gap-1.5"
+                    className="px-3.5 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium text-xs flex items-center gap-1 transition-colors"
                   >
-                    <XCircle className="w-4 h-4" />
+                    <XCircle className="w-3.5 h-3.5" />
                     <span>Reject</span>
                   </button>
                 </div>
@@ -125,9 +125,9 @@ const AdminApprovals = () => {
 
         {/* Rejection Modal */}
         {showRejectModal && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <form onSubmit={handleRejectSubmit} className="bg-white dark:bg-slate-900 rounded-3xl p-6 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-2xl space-y-4">
-              <h3 className="font-bold text-lg text-slate-900 dark:text-white">Reject Vehicle Submission</h3>
+          <div className="fixed inset-0 z-50 bg-slate-950/70 flex items-center justify-center p-4">
+            <form onSubmit={handleRejectSubmit} className="bg-white dark:bg-slate-900 rounded-xl p-5 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-xl space-y-3">
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Reject Listing</h3>
               <p className="text-xs text-slate-500">Provide rejection reason so vendor can fix specs.</p>
 
               <textarea
@@ -136,20 +136,20 @@ const AdminApprovals = () => {
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}
                 placeholder="Reason: Price exceeds realistic MSRP or battery specification is incorrect..."
-                className="w-full p-3 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
+                className="w-full p-2.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
 
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => setShowRejectModal(false)}
-                  className="flex-1 py-2.5 rounded-xl border text-xs font-semibold"
+                  className="flex-1 py-2 rounded-md border text-xs font-medium text-slate-700 dark:text-slate-300"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 rounded-xl bg-red-600 text-white text-xs font-semibold shadow"
+                  className="flex-1 py-2 rounded-md bg-red-600 text-white text-xs font-medium"
                 >
                   Confirm Rejection
                 </button>

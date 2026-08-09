@@ -24,6 +24,7 @@ const ExploreVehicles = () => {
   const [filtersMeta, setFiltersMeta] = useState({ brands: [], locations: [], bodyTypes: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Filter state
   const [search, setSearch] = useState(searchParams.get('search') || '');
@@ -40,6 +41,17 @@ const ExploreVehicles = () => {
 
   // Side-by-side comparison select tracker
   const [compareIds, setCompareIds] = useState([]);
+
+  // Active filter counter calculation
+  const activeFilterCount = [
+    brand !== '',
+    bodyType !== 'ALL',
+    condition !== 'ALL',
+    location !== '',
+    minPrice !== '',
+    maxPrice !== '',
+    minRange !== '',
+  ].filter(Boolean).length;
 
   const fetchVehicles = async () => {
     try {
@@ -125,51 +137,190 @@ const ExploreVehicles = () => {
     navigate(`/compare?ids=${compareIds.join(',')}`);
   };
 
+  const renderFilterFields = () => (
+    <div className="space-y-4">
+      {/* Keyword Search Input */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          Search
+        </label>
+        <div className="relative">
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Brand, model or location..."
+            className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-teal-500"
+          />
+        </div>
+      </div>
+
+      {/* Brand Filter */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          Brand
+        </label>
+        <select
+          value={brand}
+          onChange={(e) => {
+            setBrand(e.target.value);
+            setPage(1);
+          }}
+          className="w-full px-2.5 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
+        >
+          <option value="">All Brands</option>
+          {filtersMeta.brands.map((b) => (
+            <option key={b} value={b}>
+              {b}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Body Type Filter */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          Body Type
+        </label>
+        <select
+          value={bodyType}
+          onChange={(e) => {
+            setBodyType(e.target.value);
+            setPage(1);
+          }}
+          className="w-full px-2.5 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
+        >
+          <option value="ALL">All Body Types</option>
+          <option value="SUV">SUV</option>
+          <option value="Sedan">Sedan</option>
+          <option value="Hatchback">Hatchback</option>
+          <option value="Luxury">Luxury</option>
+          <option value="Crossover">Crossover</option>
+        </select>
+      </div>
+
+      {/* Max Price Filter */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          Max Price (₹ Lakh)
+        </label>
+        <input
+          type="number"
+          value={maxPrice ? maxPrice / 100000 : ''}
+          onChange={(e) => {
+            const val = e.target.value;
+            setMaxPrice(val ? parseFloat(val) * 100000 : '');
+            setPage(1);
+          }}
+          placeholder="e.g. 50"
+          className="w-full px-2.5 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
+        />
+      </div>
+
+      {/* Minimum Range Filter */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          Min Range (km)
+        </label>
+        <input
+          type="number"
+          value={minRange}
+          onChange={(e) => {
+            setMinRange(e.target.value);
+            setPage(1);
+          }}
+          placeholder="e.g. 400"
+          className="w-full px-2.5 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
+        />
+      </div>
+
+      {/* Condition Filter */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          Condition
+        </label>
+        <div className="flex gap-1.5">
+          {['ALL', 'NEW', 'USED'].map((cond) => (
+            <button
+              key={cond}
+              type="button"
+              onClick={() => {
+                setCondition(cond);
+                setPage(1);
+              }}
+              className={`flex-1 py-1 rounded text-xs font-medium transition-colors ${
+                condition === cond
+                  ? 'bg-teal-600 text-white'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+              }`}
+            >
+              {cond}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Title */}
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-            Electric Vehicle Marketplace
-          </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Discover {pagination.total} long-range electric vehicles with verified specifications & battery warranties
-          </p>
+        {/* Header */}
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+              Electric Vehicle Marketplace
+            </h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Explore {pagination.total} electric vehicle listings with verified specifications
+            </p>
+          </div>
+
+          <button
+            onClick={() => setMobileFiltersOpen(true)}
+            className="lg:hidden px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-md text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center justify-center gap-1.5 shadow-sm"
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5 text-teal-600" />
+            <span>Filters ({activeFilterCount})</span>
+          </button>
         </div>
 
-        {/* Natural Language Query Bar */}
-        <div className="mb-8 p-4 rounded-2xl bg-gradient-to-r from-teal-950/80 via-slate-900 to-slate-950 border border-teal-500/30 text-white shadow-lg">
-          <form onSubmit={handleNaturalQueryParse} className="flex flex-col sm:flex-row items-center gap-3">
-            <div className="flex items-center gap-2 text-teal-400 shrink-0">
-              <Sparkles className="w-5 h-5" />
-              <span className="text-xs font-bold uppercase tracking-wider">Natural Language Search</span>
+        {/* Natural Language Search Input */}
+        <div className="mb-6 p-3.5 rounded-lg bg-slate-900 border border-slate-800 text-white">
+          <form onSubmit={handleNaturalQueryParse} className="flex flex-col sm:flex-row items-center gap-2">
+            <div className="flex items-center gap-1.5 text-teal-400 shrink-0">
+              <Sparkles className="w-4 h-4" />
+              <span className="text-xs font-semibold">Natural Language Finder</span>
             </div>
             <input
               type="text"
               value={naturalQuery}
               onChange={(e) => setNaturalQuery(e.target.value)}
               placeholder="e.g. 'Show me SUVs under 30 Lakh with over 400km range'"
-              className="w-full bg-slate-900/90 text-sm text-white placeholder-slate-400 border border-slate-700 rounded-xl px-4 py-2.5 focus:outline-none focus:border-teal-400"
+              className="w-full bg-slate-800 text-xs text-white placeholder-slate-400 border border-slate-700 rounded-md px-3 py-1.5 focus:outline-none focus:border-teal-500"
             />
             <button
               type="submit"
-              className="w-full sm:w-auto px-5 py-2.5 bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold rounded-xl transition-all shrink-0"
+              className="w-full sm:w-auto px-4 py-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded-md transition-colors shrink-0"
             >
-              Parse Query
+              Apply Query
             </button>
           </form>
         </div>
 
-        {/* Floating Compare Drawer Bar */}
+        {/* Floating Compare Bar */}
         {compareIds.length > 0 && (
-          <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 bg-slate-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-4 animate-bounce-short">
-            <span className="text-xs font-semibold text-teal-400">
-              {compareIds.length} Vehicles selected for comparison
+          <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 bg-slate-900 text-white px-4 py-2.5 rounded-lg shadow-xl border border-slate-700 flex items-center gap-3">
+            <span className="text-xs font-medium text-teal-400">
+              {compareIds.length} EVs selected for comparison
             </span>
             <button
               onClick={goToComparePage}
-              className="px-4 py-1.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs rounded-xl shadow transition-all"
+              className="px-3 py-1 bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs rounded transition-colors"
             >
               Compare Now
             </button>
@@ -182,155 +333,32 @@ const ExploreVehicles = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Multi-Faceted Filters Sidebar */}
-          <div className="space-y-6 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm h-fit">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white text-base">
-                <SlidersHorizontal className="w-4 h-4 text-teal-500" />
-                <span>Filter Vehicles</span>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Desktop Filters Sidebar */}
+          <div className="hidden lg:block space-y-4 bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm h-fit">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white text-sm">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-teal-600" />
+                <span>Filters {activeFilterCount > 0 && `(${activeFilterCount})`}</span>
               </div>
               <button
                 onClick={resetFilters}
                 className="text-xs text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-1"
               >
                 <RotateCcw className="w-3 h-3" />
-                Reset
+                Reset All
               </button>
             </div>
 
-            {/* Keyword Search Input */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                Keyword Search
-              </label>
-              <div className="relative">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    setPage(1);
-                  }}
-                  placeholder="Tesla, Nexon, Dual Motor..."
-                  className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-teal-500"
-                />
-              </div>
-            </div>
-
-            {/* Brand Filter */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                Brand / Manufacturer
-              </label>
-              <select
-                value={brand}
-                onChange={(e) => {
-                  setBrand(e.target.value);
-                  setPage(1);
-                }}
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
-              >
-                <option value="">All Brands</option>
-                {filtersMeta.brands.map((b) => (
-                  <option key={b} value={b}>
-                    {b}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Body Type Filter */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                Body Segment
-              </label>
-              <select
-                value={bodyType}
-                onChange={(e) => {
-                  setBodyType(e.target.value);
-                  setPage(1);
-                }}
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
-              >
-                <option value="ALL">All Body Types</option>
-                <option value="SUV">SUV</option>
-                <option value="Sedan">Sedan</option>
-                <option value="Hatchback">Hatchback</option>
-                <option value="Luxury">Luxury</option>
-                <option value="Crossover">Crossover</option>
-              </select>
-            </div>
-
-            {/* Price Max Filter */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                Max Price (₹ Lakh)
-              </label>
-              <input
-                type="number"
-                value={maxPrice ? maxPrice / 100000 : ''}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setMaxPrice(val ? parseFloat(val) * 100000 : '');
-                  setPage(1);
-                }}
-                placeholder="e.g. 50 (for 50 Lakh)"
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
-              />
-            </div>
-
-            {/* Minimum Range Filter */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                Min Range (km)
-              </label>
-              <input
-                type="number"
-                value={minRange}
-                onChange={(e) => {
-                  setMinRange(e.target.value);
-                  setPage(1);
-                }}
-                placeholder="e.g. 400"
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
-              />
-            </div>
-
-            {/* Condition Filter */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                Condition
-              </label>
-              <div className="flex gap-2">
-                {['ALL', 'NEW', 'USED'].map((cond) => (
-                  <button
-                    key={cond}
-                    type="button"
-                    onClick={() => {
-                      setCondition(cond);
-                      setPage(1);
-                    }}
-                    className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                      condition === cond
-                        ? 'bg-teal-600 text-white shadow'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
-                    }`}
-                  >
-                    {cond}
-                  </button>
-                ))}
-              </div>
-            </div>
+            {renderFilterFields()}
           </div>
 
           {/* Vehicle Grid & Sorting */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Sort Controls Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Showing {vehicles.length} of {pagination.total} Electric Vehicles
+          <div className="lg:col-span-3 space-y-5">
+            {/* Sort Bar */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+              <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                Showing {vehicles.length} of {pagination.total} Vehicles
               </span>
 
               <div className="flex items-center gap-2">
@@ -338,7 +366,7 @@ const ExploreVehicles = () => {
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  className="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
+                  className="px-2.5 py-1 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
                 >
                   <option value="newest">Newest Listed</option>
                   <option value="price_asc">Price: Low to High</option>
@@ -356,13 +384,13 @@ const ExploreVehicles = () => {
               <ErrorState message={error} onRetry={fetchVehicles} />
             ) : vehicles.length === 0 ? (
               <EmptyState
-                title="No vehicles found"
-                description="Try broadening your price range, brand, or search filters."
-                actionText="Reset All Filters"
+                title="No EVs match your filters"
+                description="Try resetting your price range, brand or body segment filters."
+                actionText="Clear All Filters"
                 onAction={resetFilters}
               />
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {vehicles.map((vehicle) => (
                   <VehicleCard
                     key={vehicle._id}
@@ -374,31 +402,66 @@ const ExploreVehicles = () => {
               </div>
             )}
 
-            {/* Pagination controls */}
+            {/* Pagination Controls */}
             {pagination.pages > 1 && (
-              <div className="flex items-center justify-center gap-2 pt-6">
+              <div className="flex items-center justify-center gap-2 pt-4">
                 <button
                   disabled={page <= 1}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 disabled:opacity-40"
+                  className="p-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 disabled:opacity-40"
                 >
-                  <ChevronLeft className="w-5 h-5" />
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
-                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 px-3">
+                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 px-2">
                   Page {pagination.page} of {pagination.pages}
                 </span>
                 <button
                   disabled={page >= pagination.pages}
                   onClick={() => setPage((p) => Math.min(pagination.pages, p + 1))}
-                  className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 disabled:opacity-40"
+                  className="p-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 disabled:opacity-40"
                 >
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
             )}
           </div>
         </div>
       </div>
+
+      {/* Mobile Filters Drawer */}
+      {mobileFiltersOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/60 flex justify-end">
+          <div className="w-full max-w-xs bg-white dark:bg-slate-900 h-full p-5 flex flex-col justify-between overflow-y-auto">
+            <div>
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Filters ({activeFilterCount})</h3>
+                <button
+                  onClick={() => setMobileFiltersOpen(false)}
+                  className="text-xs text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                >
+                  Close
+                </button>
+              </div>
+              {renderFilterFields()}
+            </div>
+
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex gap-2">
+              <button
+                onClick={resetFilters}
+                className="flex-1 py-2 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
+              >
+                Clear All
+              </button>
+              <button
+                onClick={() => setMobileFiltersOpen(false)}
+                className="flex-1 py-2 rounded-md text-xs font-medium bg-teal-600 text-white"
+              >
+                Apply Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

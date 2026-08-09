@@ -64,17 +64,17 @@ const VendorAddVehicle = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-8 transition-colors">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-1">
           List New Electric Vehicle
         </h1>
-        <p className="text-xs text-slate-500 mb-8">
-          Submit vehicle specs for admin approval. Status will be set to PENDING_APPROVAL.
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
+          Submit vehicle specs for admin verification before publishing to marketplace.
         </p>
 
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Listing Title</label>
               <input
@@ -83,7 +83,7 @@ const VendorAddVehicle = () => {
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 placeholder="e.g. Tesla Model 3 Long Range"
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+                className="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
             </div>
             <div>
@@ -94,12 +94,12 @@ const VendorAddVehicle = () => {
                 value={formData.brand}
                 onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
                 placeholder="Tesla, Tata, Hyundai..."
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+                className="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-3">
             <div>
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Model Name</label>
               <input
@@ -108,7 +108,7 @@ const VendorAddVehicle = () => {
                 value={formData.model}
                 onChange={(e) => setFormData({ ...formData, model: e.target.value })}
                 placeholder="Model 3"
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+                className="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
             </div>
             <div>
@@ -118,7 +118,7 @@ const VendorAddVehicle = () => {
                 required
                 value={formData.year}
                 onChange={(e) => setFormData({ ...formData, year: Number(e.target.value) })}
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+                className="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
             </div>
             <div>
@@ -129,12 +129,12 @@ const VendorAddVehicle = () => {
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                 placeholder="4500000"
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+                className="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-3">
             <div>
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Claimed Range (km)</label>
               <input
@@ -143,7 +143,7 @@ const VendorAddVehicle = () => {
                 value={formData.rangeKm}
                 onChange={(e) => setFormData({ ...formData, rangeKm: e.target.value })}
                 placeholder="500"
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+                className="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
             </div>
             <div>
@@ -154,7 +154,7 @@ const VendorAddVehicle = () => {
                 value={formData.batteryCapacityKwh}
                 onChange={(e) => setFormData({ ...formData, batteryCapacityKwh: e.target.value })}
                 placeholder="75"
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+                className="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
             </div>
             <div>
@@ -162,7 +162,7 @@ const VendorAddVehicle = () => {
               <select
                 value={formData.bodyType}
                 onChange={(e) => setFormData({ ...formData, bodyType: e.target.value })}
-                className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+                className="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               >
                 <option value="SUV">SUV</option>
                 <option value="Sedan">Sedan</option>
@@ -180,7 +180,7 @@ const VendorAddVehicle = () => {
               value={formData.imageUrl}
               onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
               placeholder="https://images.unsplash.com/..."
-              className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+              className="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
             />
           </div>
 
@@ -191,16 +191,16 @@ const VendorAddVehicle = () => {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Detail interior, performance, autopilot features..."
-              className="w-full p-3 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700"
+              className="w-full p-2.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs shadow-lg flex items-center justify-center gap-2"
+            className="w-full py-2.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs sm:text-sm transition-colors flex items-center justify-center gap-1.5"
           >
-            {submitting ? <span>Submitting Listing...</span> : <span>Submit for Admin Approval</span>}
+            {submitting ? <span>Submitting...</span> : <span>Submit for Admin Approval</span>}
           </button>
         </form>
       </div>

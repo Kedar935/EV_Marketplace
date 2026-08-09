@@ -11,16 +11,16 @@ const EmptyState = ({
   onAction,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center text-center p-12 bg-slate-50 dark:bg-slate-900/50 rounded-3xl border border-slate-200 dark:border-slate-800 my-6">
-      <div className="w-16 h-16 rounded-2xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-4">
-        <Icon className="w-8 h-8" />
+    <div className="flex flex-col items-center justify-center text-center p-8 sm:p-12 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 my-6">
+      <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 flex items-center justify-center mb-3">
+        <Icon className="w-6 h-6" />
       </div>
-      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{title}</h3>
-      <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mb-6">{description}</p>
+      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">{title}</h3>
+      <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-5">{description}</p>
       {actionText && actionLink && (
         <Link
           to={actionLink}
-          className="inline-flex items-center px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-medium text-sm transition-all shadow-lg shadow-teal-500/20"
+          className="inline-flex items-center px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs transition-colors"
         >
           {actionText}
         </Link>
@@ -28,7 +28,7 @@ const EmptyState = ({
       {actionText && onAction && !actionLink && (
         <button
           onClick={onAction}
-          className="inline-flex items-center px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-medium text-sm transition-all shadow-lg shadow-teal-500/20"
+          className="inline-flex items-center px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs transition-colors"
         >
           {actionText}
         </button>

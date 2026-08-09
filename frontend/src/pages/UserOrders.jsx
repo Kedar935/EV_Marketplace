@@ -43,13 +43,13 @@ const UserOrders = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
+        <div className="mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
             My Order History
           </h1>
-          <p className="text-xs text-slate-500 mt-1">Track delivery status and view invoices</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Track delivery status and view order details</p>
         </div>
 
         {loading ? (
@@ -59,7 +59,7 @@ const UserOrders = () => {
             icon={Package}
             title="No orders placed yet"
             description="You haven't placed any electric vehicle orders yet."
-            actionText="Explore Marketplace"
+            actionText="Explore EVs"
             actionLink="/vehicles"
           />
         ) : (
@@ -67,48 +67,52 @@ const UserOrders = () => {
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+                className="p-5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
               >
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <span className="font-extrabold text-base text-slate-900 dark:text-white">{order.orderNumber}</span>
-                    <Badge variant={order.paymentInfo?.status === 'PAID' ? 'success' : 'warning'}>
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-sm text-slate-900 dark:text-white">{order.orderNumber}</span>
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-semibold ${
+                      order.paymentInfo?.status === 'PAID' ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-white'
+                    }`}>
                       {order.paymentInfo?.status}
-                    </Badge>
-                    <Badge variant="teal">{order.orderStatus}</Badge>
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-teal-600 text-white">
+                      {order.orderStatus}
+                    </span>
                   </div>
 
-                  <div className="text-xs text-slate-500 flex items-center gap-4">
+                  <div className="text-xs text-slate-500 flex items-center gap-3">
                     <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" />
+                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
                       {new Date(order.createdAt).toLocaleDateString()}
                     </span>
                     <span>{order.items?.length || 1} Vehicle(s)</span>
                   </div>
 
-                  {/* Items brief preview */}
-                  <div className="flex flex-wrap gap-2 pt-1">
+                  {/* Items preview */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
                     {order.items?.map((it, idx) => (
-                      <span key={idx} className="text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+                      <span key={idx} className="text-xs text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
                         {it.title || `${it.brand} ${it.model}`}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full md:w-auto justify-between pt-4 md:pt-0 border-t md:border-t-0 border-slate-100 dark:border-slate-800">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full md:w-auto justify-between pt-3 md:pt-0 border-t md:border-t-0 border-slate-100 dark:border-slate-800">
                   <div className="text-left md:text-right">
-                    <span className="text-xs text-slate-400 block">Total Amount</span>
-                    <span className="text-xl font-black text-teal-600 dark:text-teal-400">
+                    <span className="text-[11px] text-slate-400 uppercase tracking-wider block">Total Amount</span>
+                    <span className="text-lg font-bold text-teal-600 dark:text-teal-400">
                       ₹{order.pricing?.totalPrice?.toLocaleString()}
                     </span>
                   </div>
 
                   <Link
                     to={`/orders/${order._id}/track`}
-                    className="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all"
+                    className="px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs flex items-center gap-1.5 transition-colors shrink-0"
                   >
-                    <Truck className="w-4 h-4" />
+                    <Truck className="w-3.5 h-3.5" />
                     <span>Track Order</span>
                   </Link>
                 </div>

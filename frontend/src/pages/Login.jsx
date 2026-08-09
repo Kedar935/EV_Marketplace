@@ -44,39 +44,39 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-16 flex items-center justify-center transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 flex items-center justify-center transition-colors">
       <div className="max-w-md w-full px-4">
         {/* Brand Header */}
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-emerald-400 text-white flex items-center justify-center shadow-lg shadow-teal-500/20">
-              <Zap className="w-6 h-6 fill-current" />
+        <div className="text-center mb-6">
+          <Link to="/" className="inline-flex items-center gap-2 mb-2">
+            <div className="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center">
+              <Zap className="w-4 h-4 fill-current" />
             </div>
-            <span className="text-2xl font-extrabold text-slate-900 dark:text-white">
-              EV<span className="text-teal-500">Market</span>
+            <span className="text-xl font-bold text-slate-900 dark:text-white">
+              EV<span className="text-teal-600 dark:text-teal-400">Market</span>
             </span>
           </Link>
-          <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
             Welcome Back
           </h1>
-          <p className="text-xs text-slate-500 mt-1">Sign in to your account</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Sign in to your account</p>
         </div>
 
         {/* Card Form */}
-        <form onSubmit={handleLogin} className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl space-y-4">
+        <form onSubmit={handleLogin} className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3.5">
           <div>
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="customer@gmail.com"
-                className="w-full pl-10 pr-3 py-2.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-teal-500"
+                className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
             </div>
           </div>
@@ -86,14 +86,14 @@ const Login = () => {
               Password
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-3 py-2.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-teal-500"
+                className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md border border-slate-200 dark:border-slate-700 focus:outline-none"
               />
             </div>
           </div>
@@ -101,7 +101,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs shadow-lg shadow-teal-500/25 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+            className="w-full py-2.5 px-4 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs sm:text-sm transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
           >
             {loading ? (
               <span>Signing In...</span>
@@ -113,17 +113,17 @@ const Login = () => {
             )}
           </button>
 
-          {/* Quick Demo Login Credentials Hint */}
-          <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl text-[11px] text-slate-500 space-y-1">
-            <span className="font-bold text-slate-700 dark:text-slate-300 block">Available Demo Accounts:</span>
+          {/* Quick Demo Credentials */}
+          <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg text-[11px] text-slate-500 space-y-0.5 border border-slate-100 dark:border-slate-800">
+            <span className="font-semibold text-slate-700 dark:text-slate-300 block mb-0.5">Demo Credentials:</span>
             <p>• Customer: customer@gmail.com / Password123</p>
             <p>• Vendor: vendor@apexev.com / Password123</p>
             <p>• Admin: admin@evmarketplace.com / Password123</p>
           </div>
 
-          <div className="pt-2 text-center text-xs text-slate-500">
+          <div className="pt-1 text-center text-xs text-slate-500">
             Don't have an account?{' '}
-            <Link to="/register" className="text-teal-600 dark:text-teal-400 font-bold hover:underline">
+            <Link to="/register" className="text-teal-600 dark:text-teal-400 font-semibold hover:underline">
               Create an Account
             </Link>
           </div>
